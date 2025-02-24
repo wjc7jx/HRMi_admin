@@ -25,10 +25,10 @@ export default {
     },
    // 选择图片上传
     uploadImage(params) {
-      // console.log(params.file)
+      console.log(process.env.VUE_APP_SECRET_ID)
       const cos = new COS({
-        SecretId: 'AKIDLdkgPvJVWQEnBXlw2Ixa5ZrvlNq7AzeB',
-        SecretKey: 'QcdZuKm5MTNBpMxSnCTWMyMWRIwMfmfP'
+        SecretId: process.env.VUE_APP_SECRET_ID, // 腾讯云的SecretId
+        SecretKey: process.env.VUE_APP_SECRET_KEY // 腾讯云的SecretKey
       }) // 完成cos对象的初始化
       cos.putObject({
         Bucket: 'hrmi-1328155764', // 存储桶名称
