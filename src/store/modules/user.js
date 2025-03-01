@@ -4,7 +4,7 @@ import { constantRoutes } from '@/router'
 const state = {
   token: getToken(), // 从缓存中读取初始值
   userInfo: {},
-  routes:constantRoutes
+  routes: constantRoutes
 }
 
 const mutations = {
@@ -21,8 +21,8 @@ const mutations = {
   setUserInfo(state, userInfo) {
     state.userInfo = userInfo
   },
-  setRoutes(state,newRoutes){
-    state.routes = [...constantRoutes,...newRoutes]
+  setRoutes(state, newRoutes) {
+    state.routes = [...constantRoutes, ...newRoutes]
   }
 }
 
@@ -35,16 +35,16 @@ const actions = {
     // 返回一个token 123456
     context.commit('setToken', token)
   },
-  //获取用户信息
+  // 获取用户信息
   async getUserInfo(context) {
     const result = await getUserInfo()
     context.commit('setUserInfo', result)
-    return result //返回用户信息
+    return result // 返回用户信息
   },
   logout(context) {
     context.commit('removeToken')
     context.commit('setUserInfo', {})
-  },
+  }
 }
 export default {
   namespaced: true, // 开启命名空间

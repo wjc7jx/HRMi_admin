@@ -1,29 +1,34 @@
 <template>
-  <el-upload class="avatar-uploader" action="" :show-file-list="false" :before-upload="beforeAvatarUpload"
-    :http-request="uploadImage">
+  <el-upload
+    class="avatar-uploader"
+    action=""
+    :show-file-list="false"
+    :before-upload="beforeAvatarUpload"
+    :http-request="uploadImage"
+  >
     <!-- (自动上传)action是上传地址 人资项目不需要 人资项目(手动上传)  -->
     <img v-if="value" :src="value" class="avatar">
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+    <i v-else class="el-icon-plus avatar-uploader-icon" />
   </el-upload>
 </template>
 <script>
-import COS from 'cos-js-sdk-v5' //脚手架安装
+import COS from 'cos-js-sdk-v5' // 脚手架安装
 export default {
   props: ['value'],
   methods: {
     beforeAvatarUpload(file) {
       // 所有图片
-      const isValidFormat = ['image/jpeg', 'image/png', 'image/gif', 'image/bmp'].includes(file.type);
-      const isLt5M = file.size / 1024 / 1024 < 5;
+      const isValidFormat = ['image/jpeg', 'image/png', 'image/gif', 'image/bmp'].includes(file.type)
+      const isLt5M = file.size / 1024 / 1024 < 5
       if (!isValidFormat) {
-        this.$message.error('上传头像图片只能是 JPG / PNG / GIF / BMP 格式!');
+        this.$message.error('上传头像图片只能是 JPG / PNG / GIF / BMP 格式!')
       }
       if (!isLt5M) {
-        this.$message.error('上传头像图片大小不能超过 5MB!');
+        this.$message.error('上传头像图片大小不能超过 5MB!')
       }
-      return isValidFormat && isLt5M;
+      return isValidFormat && isLt5M
     },
-   // 选择图片上传
+    // 选择图片上传
     uploadImage(params) {
       console.log(process.env.VUE_APP_SECRET_ID)
       const cos = new COS({

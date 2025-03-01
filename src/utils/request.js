@@ -22,17 +22,17 @@ service.interceptors.request.use((config) => {
 // 响应拦截器
 service.interceptors.response.use(
   (response) => {
-    if(response.data instanceof Blob) return response.data // 如果为blob类型直接返回
+    if (response.data instanceof Blob) return response.data // 如果为blob类型直接返回
     const { success, message, data } = response.data
     if (success) {
       return data
-    }else{
+    } else {
       Message({ type: 'error', message })
       return Promise.reject(new Error(message))
     }
   },
-  async (error) => {
-    if(error.response.status === 401){
+  async(error) => {
+    if (error.response.status === 401) {
       Message({ type: 'error', message: '无效的token' })
       await store.dispatch('user/logout')
       router.push('/login')

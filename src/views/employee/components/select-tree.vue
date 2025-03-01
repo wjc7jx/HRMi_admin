@@ -7,7 +7,7 @@
 <script>
 import { getDepartment } from '@/api/department'
 
-import { list2tree } from '@/utils/index';
+import { list2tree } from '@/utils/index'
 export default {
   props: ['value'],
   data() {
@@ -28,7 +28,7 @@ export default {
     },
     changeValue(list) {
       // 取到数组的最后一次
-      console.log(list);
+      console.log(list)
       if (list.length > 0) {
         this.$emit('input', list[list.length - 1]) // 将最后一位的id取出来 传出去
       } else {

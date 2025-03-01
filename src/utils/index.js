@@ -45,7 +45,7 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
     return value.toString().padStart(2, '0')
   })
   return time_str
@@ -115,20 +115,43 @@ export function param2Obj(url) {
   })
   return obj
 }
+
 /**
  *
  */
-export function list2tree(list, rootValue) {
-  const arr = []
-  list.forEach(item => {
-    if (item.pid === rootValue) {
-      // 找到了匹配的节点
-      arr.push(item)
-      // 当前节点的id 和 当前节点的子节点的pid是想等的
-      const children = list2tree(list, item.id) // 找到的节点的子节点
-      if (children.length) { item.children = children } // 将子节点赋值给当前节点
-    }
-  })
-  return arr
-}
+// export function list2tree(list, rootValue) {
+//   const arr = []
+//   list.forEach(item => {
+//     if (item.pid === rootValue) {
+//       // 找到了匹配的节点
+//       arr.push(item)
+//       // 当前节点的id 和 当前节点的子节点的pid是想等的
+//       const children = list2tree(list, item.id) // 找到的节点的子节点
+//       if (children.length) { item.children = children } // 将子节点赋值给当前节点
+//     }
+//   })
+//   return arr
+// }
 
+// 算法进行了优化 从 O(n2)降到 O(n)
+export function list2tree(list, rootValue) {
+  // 预处理：建立 pid -> 子节点的映射
+  const childrenMap = {}
+  list.forEach(item => {
+    if (!childrenMap[item.pid]) {
+      childrenMap[item.pid] = []
+    }
+    childrenMap[item.pid].push(item)
+  })
+
+  // 递归构建树结构
+  const buildTree = (pid) => {
+    const nodes = childrenMap[pid] || [] // 当前节点的所有子节点
+    return nodes.map(node => {
+      node.children = buildTree(node.id) // 递归生成子节点树
+      return node
+    })
+  }
+
+  return buildTree(rootValue)
+}
